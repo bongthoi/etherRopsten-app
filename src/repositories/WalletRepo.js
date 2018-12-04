@@ -36,12 +36,12 @@ class WalletRepo{
         });
     };
 
-    delete(_accountAddress){
+    delete(_accountID){
         let method="WalletRepo/delete()";
         console.log(method + " -->start");
 
         return new Promise((resolve,reject)=>{
-            mysqldb_connection.query("DELETE FROM tb_wallet WHERE account_address=?",[_accountAddress],(error,result)=>{
+            mysqldb_connection.query("DELETE FROM tb_wallet WHERE id=?",[_accountID],(error,result)=>{
                 if(error){
                     console.log(method+" -->fail");
                     return reject(error+"");
@@ -70,12 +70,12 @@ class WalletRepo{
         });
     };
 
-    getByID(_accountAddress){
+    getByID(_accountID){
         let method="WalletRepo/getByID()";
         console.log(method + " -->start");
 
         return new Promise((resolve,reject)=>{
-            mysqldb_connection.query("SELECT * FROM tb_wallet WHERE account_address=?",[_accountAddress],(error,result)=>{
+            mysqldb_connection.query("SELECT * FROM tb_wallet WHERE id=?",[_accountID],(error,result)=>{
                 if(error){
                     console.log(method+" -->fail");
                     return reject(error+"");
@@ -92,7 +92,7 @@ class WalletRepo{
         console.log(method+" -->start");
 
         return new Promise((resolve,reject)=>{
-            mysqldb_connection.query("UPDATE tb_wallet SET account_name=?,ether_balance=?,token_balance=? WHERE account_address=?",[_account.account_name,_account.ether_balance,_account.token_balance,_account.account_address],(error,result)=>{
+            mysqldb_connection.query("UPDATE tb_wallet SET account_name=?,ether_balance=?,token_balance=? WHERE id=?",[_account.account_name,_account.ether_balance,_account.token_balance,_account.id],(error,result)=>{
                 if(error){
                     console.log(method+" -->fail");
                     return reject(new Error(error));

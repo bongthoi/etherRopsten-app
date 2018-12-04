@@ -8,11 +8,13 @@ import User from '../models/UserModel';
 import Wallet from '../models/WalletModel';
 import UserService from '../services/UserService';
 import WalletService from '../services/WalletService';
+import EtherService from '../services/etherService';
 
 /** */
 let LocalStrategy = require("passport-local").Strategy;
 var userService = new UserService();
 var walletService = new WalletService();
+var etherService=new EtherService();
 var fileUitility = new FileUitility();
 let router = express.Router();
 
@@ -123,12 +125,102 @@ router.post("/private/users/updateProfile", isLoggedIn, async (req, res) => {
 /**private/wallet */
 router.get("/private/wallet/accountList", isLoggedIn, async (req, res) => {
 	let account_list = await walletService.getByUser((req.session.user).username);
+
+	for(let i=0;i<account_list.length;i++){
+		let ether_account=await etherService.getBalance(account_list[i].account_address);
+		account_list[i].ether_balance=ether_account.ethBalance;
+		account_list[i].token_balance=ether_account.tokenBalance;
+	}
+
 	res.render("dashboard/wallet/account_list", { title: "Account List", accounts: account_list });
 });
 
+router.post("/private/wallet/insertAccount", isLoggedIn, async (req, res) => {
+	
+		let address_name = req.body.account_name;		
+		let created = new Date();		
+		let creator = (req.session.user).username;		
 
+		
+		let createAccount=await etherService.createAccount();
+		let new_account = new Wallet(null, address_name, createAccount.AccountAddress, createAccount.PrivateKey, created, creator, 0, 0);
+	
+		try {
+			let result = await walletService.insert(new_account);
+			req.flash('success_message', 'You have created account successfull');
+			res.redirect("/private/wallet/accountList");
+		} catch (error) {
+			req.flash('error_message', 'You have not changed fail');
+			res.redirect("/private/wallet/accountList");
+		}
+	
+});
 
+router.get("/private/wallet/updateAccount/:accountID", isLoggedIn, async (req, res) => {
+	try {
+		let account = await walletService.getByID(req.params.accountID);
+		res.render("dashboard/wallet/account_update", { title: "Update Account", account: account[0] });
+	} catch (error) {
+		req.flash('error_message', 'update fail');
+		res.redirect("/private/wallet/accountList");
+	}
+});
 
+router.post("/private/wallet/updateAccount/:accountID", isLoggedIn, async (req, res) => {
+	
+		let account_name = req.body.account_name;		
+
+		let oldAccount = await walletService.getByID(req.params.accountID);		
+		let new_account = new Wallet(oldAccount[0].id, account_name, oldAccount[0].account_address, oldAccount[0].private_key, oldAccount[0].created, oldAccount[0].creator, 0, 0);
+		try {
+			
+			let result = await walletService.update(new_account);
+			res.redirect("/private/wallet/accountList");
+		} catch (error) {
+			req.flash('error_message', 'You have not changed fail');
+			res.redirect("/private/wallet/accountList");
+		}
+
+});
+
+router.get("/private/wallet/deleteAccount/:accountID", isLoggedIn, async (req, res) => {
+	try {
+		let result = await walletService.delete(req.params.accountID);
+		req.flash('success_message', 'You have deleted account successfull');
+		res.redirect("/private/wallet/accountList");
+	} catch (error) {
+		req.flash('error_message', 'Delete fail');
+		res.redirect("/private/wallet/accountList");
+	}
+
+});
+
+router.get("/private/wallet/transfer/:accountID", isLoggedIn, async (req, res) => {
+	try {
+		let account = await walletService.getByID(req.params.accountID);
+		res.render("dashboard/wallet/account_transfer", { title: "Transfer", account: account[0] });
+	} catch (error) {
+		req.flash('error_message', 'update fail');
+		res.redirect("/private/wallet/accountList");
+	}
+});
+
+router.post("/private/wallet/transfer/:accountID", isLoggedIn, async (req, res) => {
+	
+	let to_account_address = req.body.to_account_address;
+	let amount = req.body.amount;		
+
+	let oldAccount = await walletService.getByID(req.params.accountID);		
+	try {
+		let result=await etherService.transferFrom(oldAccount[0].account_address,oldAccount[0].private_key,to_account_address,amount);
+		req.flash('success_message', 'You have transfer token  successfull');
+		res.redirect("/private/wallet/accountList");
+	} catch (error) {
+		req.flash('error_message', 'You have not transfer fail');
+		res.redirect("/private/wallet/accountList");
+	}
+
+});
 
 /**passportjs Auth */
 passport.use(new LocalStrategy({

@@ -35,12 +35,12 @@ class WalletService{
         }
     };
 
-    async delete(_accountAddress){
+    async delete(_accountID){
         const method="WalletService/delete()";
         console.log(method+" -->start");
 
         try {
-          let result= await walletRepo.delete(_accountAddress);
+          let result= await walletRepo.delete(_accountID);
           console.log(method+" -->success");
           return result;  
         } catch (error) {
@@ -63,12 +63,12 @@ class WalletService{
         }
     };
 
-   async getByID(_accountAddress){
+   async getByID(_accountID){
         const method="WalletService/getByID()";
         console.log(method+" -->start");
 
         try {
-          let result= await walletRepo.getByID(_accountAddress);
+          let result= await walletRepo.getByID(_accountID);
           console.log(method+" -->success");
           return result;  
         } catch (error) {
