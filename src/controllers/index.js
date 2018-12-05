@@ -213,7 +213,7 @@ router.post("/private/wallet/transfer/:accountID", isLoggedIn, async (req, res) 
 	let oldAccount = await walletService.getByID(req.params.accountID);		
 	try {
 		let result=await etherService.transferFrom(oldAccount[0].account_address,oldAccount[0].private_key,to_account_address,amount);
-		req.flash('success_message', 'You have transfer token  successfull');
+		req.flash('success_message', JSON.stringify(result));
 		res.redirect("/private/wallet/accountList");
 	} catch (error) {
 		req.flash('error_message', 'You have not transfer fail');
