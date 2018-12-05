@@ -99,7 +99,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <td><%=account.account_address%></td>
                               <td><%=account.private_key%></td>                             
                              <!--  <td><%=account.ether_balance%></td>    -->                   
-                              <td><%=account.token_balance%></td>
+                              <td><%=account.token_balance%><strong> (<%=symbol%>) </strong></td>
                               <td><a href="/private/wallet/transfer/<%=account.id%>"><i class="fa fa-exchange"></i></a></td>
                               <td><a href="/private/wallet/updateAccount/<%=account.id%>"><i class="fa fa-edit"></i></a></td>
                               <td><a href="/private/wallet/deleteAccount/<%=account.id%>"><i class="fa fa-trash-o"></i></a></td>

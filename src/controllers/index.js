@@ -4,6 +4,7 @@ import moment from 'moment';
 
 /** */
 import FileUitility from '../utilities/FileUitility';
+import ether_ropsten_api from '../../config/ether_ropsten_api.json';
 import User from '../models/UserModel';
 import Wallet from '../models/WalletModel';
 import UserService from '../services/UserService';
@@ -132,7 +133,7 @@ router.get("/private/wallet/accountList", isLoggedIn, async (req, res) => {
 		account_list[i].token_balance=ether_account.tokenBalance;
 	}
 
-	res.render("dashboard/wallet/account_list", { title: "Account List", accounts: account_list });
+	res.render("dashboard/wallet/account_list", { title: "Account List", accounts: account_list,symbol:ether_ropsten_api.symbol });
 });
 
 router.post("/private/wallet/insertAccount", isLoggedIn, async (req, res) => {
