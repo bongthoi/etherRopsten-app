@@ -84,7 +84,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <th>Account Name</th>
                       <th>Account Address</th>
                       <th>Private Key</th>
-                      <!-- <th>Ether Balance</th> -->
+                      <th>Ether Balance</th>
                       <th>Token Balance</th>
                       <th colspan="2">Operator</th>
                     </tr>
@@ -98,7 +98,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <td><%=account.account_name%></td>
                               <td><%=account.account_address%></td>
                               <td><%=account.private_key%></td>                             
-                             <!--  <td><%=account.ether_balance%></td>    -->                   
+                              <td><%=account.ether_balance%></td>                      
                               <td><%=account.token_balance%><strong> (<%=symbol%>) </strong></td>
                               <td><a href="/private/wallet/transfer/<%=account.id%>"><i class="fa fa-exchange"></i></a></td>
                               <td><a href="/private/wallet/updateAccount/<%=account.id%>"><i class="fa fa-edit"></i></a></td>
