@@ -9,12 +9,14 @@ import User from '../models/UserModel';
 import Wallet from '../models/WalletModel';
 import UserService from '../services/UserService';
 import WalletService from '../services/WalletService';
+import TokenService from '../services/tokenService';
 import EtherService from '../services/etherService';
 
 /** */
 let LocalStrategy = require("passport-local").Strategy;
 var userService = new UserService();
 var walletService = new WalletService();
+var tokenService=new TokenService();
 var etherService=new EtherService();
 var fileUitility = new FileUitility();
 let router = express.Router();
@@ -128,7 +130,7 @@ router.get("/private/wallet/accountList", isLoggedIn, async (req, res) => {
 	let account_list = await walletService.getByUser((req.session.user).username);
 
 	for(let i=0;i<account_list.length;i++){
-		let ether_account=await etherService.getBalance(account_list[i].account_address);
+		let ether_account=await tokenService.getBalance(account_list[i].account_address);
 		account_list[i].ether_balance=ether_account.ethBalance;
 		account_list[i].token_balance=ether_account.tokenBalance;
 	}
@@ -143,7 +145,7 @@ router.post("/private/wallet/insertAccount", isLoggedIn, async (req, res) => {
 		let creator = (req.session.user).username;		
 
 		
-		let createAccount=await etherService.createAccount();
+		let createAccount=await tokenService.createAccount();
 		let new_account = new Wallet(null, address_name, createAccount.AccountAddress, createAccount.PrivateKey, created, creator, 0, 0);
 	
 		try {
@@ -210,12 +212,20 @@ router.post("/private/wallet/transfer/:accountID", isLoggedIn, async (req, res) 
 	
 	let to_account_address = req.body.to_account_address;
 	let amount = req.body.amount;		
+	let type=req.body.type;
 
 	let oldAccount = await walletService.getByID(req.params.accountID);		
 	try {
-		let result=await etherService.transferFrom(oldAccount[0].account_address,oldAccount[0].private_key,to_account_address,amount);
-		req.flash('success_message', JSON.stringify(result));
-		res.redirect("/private/wallet/accountList");
+		if(type=='eth'){
+			let result=await etherService.transferEther(oldAccount[0].account_address,oldAccount[0].private_key,to_account_address,amount);
+			req.flash('success_message', JSON.stringify(result));
+			res.redirect("/private/wallet/accountList");
+		}else{
+			let result=await tokenService.transferFrom(oldAccount[0].account_address,oldAccount[0].private_key,to_account_address,amount);
+			req.flash('success_message', JSON.stringify(result));
+			res.redirect("/private/wallet/accountList");
+		}	
+		
 	} catch (error) {
 		req.flash('error_message', 'You have not transfer fail');
 		res.redirect("/private/wallet/accountList");
