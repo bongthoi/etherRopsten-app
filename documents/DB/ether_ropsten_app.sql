@@ -65,7 +65,7 @@ CREATE TABLE `tb_wallet` (
   `ether_balance` double DEFAULT '0',
   `token_balance` double DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +74,7 @@ CREATE TABLE `tb_wallet` (
 
 LOCK TABLES `tb_wallet` WRITE;
 /*!40000 ALTER TABLE `tb_wallet` DISABLE KEYS */;
-INSERT INTO `tb_wallet` VALUES (2,'vs_buyer','0xeDcb82Fc306d4DF3Bafdc843b65DF265F458456C','b6e62bd628c29d5f8991f3b656bcd9c23615ac55751a9abe2a2d6a628e148525','2018-10-16 10:44:11','buyer@vinhsang.com',0,0),(28,'vs_seller','0x10Cc2A76623C184C1775c179c3E91c4a0f1Adb2b','0x726b466ee5cf1fa1476002a2c650ea58b326ba0cc7c1f3db72fcb3f95d12406c','2018-12-04 16:10:22','seller@vinhsang.com',0,0),(29,'main_account','0x5FEE6D6605Fee0f22F196d0507850c92EFD43F16','ddc3d9e02781dc7679b5cf84f12d637e43f9c138fead9014c3359eedceec25d2','2018-12-04 20:31:53','admin@vinhsang.com',0,0),(30,'glo_buyer','0x7e7AA07E59113Ca4bb0939043A785A19d5427d1c','0xca82dd6dba4dda2b4936160d591114c7612a4e353e6c88bcfbf0d36dfd62e77e','2018-12-04 20:54:19','buyer@glorious.com',0,0),(31,'glo_seller','0xA84E84600b4fcA8aa24b50CE3E41995b150B9607','0x08714f3d6f00478a9e5c3318af1983fc3bd1699716c2bb46faaf49353acba855','2018-12-04 20:55:59','seller@glorious.com',0,0);
+INSERT INTO `tb_wallet` VALUES (1,'vs_buyer','0xeDcb82Fc306d4DF3Bafdc843b65DF265F458456C','b6e62bd628c29d5f8991f3b656bcd9c23615ac55751a9abe2a2d6a628e148525','2018-10-16 10:44:11','buyer@vinhsang.com',0,0),(2,'vs_seller','0x50Ee8A69a1626F07F4954D479662C8F18958D8a2','19d2b89ee4e120baef24cbf47449d8605df4e9f5acb48c033a109b05fbe6a4a6','2018-12-04 16:10:22','seller@vinhsang.com',0,0),(3,'main_account','0x5FEE6D6605Fee0f22F196d0507850c92EFD43F16','ddc3d9e02781dc7679b5cf84f12d637e43f9c138fead9014c3359eedceec25d2','2018-12-04 20:31:53','admin@vinhsang.com',0,0),(4,'glo_buyer','0xB7f72FC970258384C6aA359fe47dEAa5F1aBD328','cc6bdab57087ed3c000727cadb2d1d5aa572e02de88fe882765c60b57c708a76','2018-12-04 20:54:19','buyer@glorious.com',0,0),(5,'glo_seller','0x91FB11729b866213036Fb3edB1a6D757Bc74C92B','d5946243659084ed1284ad3e60e49c2cc62904ac77301daf0150fb679bd3a4ed','2018-12-04 20:55:59','seller@glorious.com',0,0);
 /*!40000 ALTER TABLE `tb_wallet` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -87,4 +87,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-05  9:17:41
+-- Dump completed on 2018-12-12 11:04:22
