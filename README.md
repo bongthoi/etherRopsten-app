@@ -3,6 +3,8 @@
 ## Features:
 - [x] Login/Register.
 - [x] Manage Accounts.
+- [x] getBalance/transferFrom/createAccount/Token.
+- [x] transferEther/Ether.
 
 
 ## Installation
