@@ -100,6 +100,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                               <td><%=account.private_key%></td>                             
                               <td><%=account.ether_balance%></td>                      
                               <td><%=account.token_balance%><strong> (<%=symbol%>) </strong></td>
+                              <!-- <td><a href="/private/wallet/faucet/<%=account.id%>"><img src="https://s2.coinmarketcap.com/static/img/coins/16x16/1027.png" class="logo-sprite" alt="Ethereum" height="16" width="16"></a></td> -->
+                              <td><a href="/private/wallet/faucet/<%=account.id%>"><i class="fa fa-gift"></i></a></td>
                               <td><a href="/private/wallet/transfer/<%=account.id%>"><i class="fa fa-exchange"></i></a></td>
                               <td><a href="/private/wallet/updateAccount/<%=account.id%>"><i class="fa fa-edit"></i></a></td>
                               <td><a href="/private/wallet/deleteAccount/<%=account.id%>"><i class="fa fa-trash-o"></i></a></td>

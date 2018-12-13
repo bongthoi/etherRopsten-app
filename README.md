@@ -5,6 +5,7 @@
 - [x] Manage Accounts.
 - [x] getBalance/transferFrom/createAccount/Token.
 - [x] transferEther/Ether.
+- [x] faucet eth/token.
 
 
 ## Installation

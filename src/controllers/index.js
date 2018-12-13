@@ -233,6 +233,49 @@ router.post("/private/wallet/transfer/:accountID", isLoggedIn, async (req, res) 
 
 });
 
+router.get("/private/wallet/faucet/:accountID", isLoggedIn, async (req, res) => {
+	try {
+		let account = await walletService.getByID(req.params.accountID);
+		let faucet_account = await walletService.getByID(1);
+		res.render("dashboard/wallet/account_faucet", { title: "Ropsten Test Faucet", account_to: account[0],faucet_account:faucet_account[0]});
+	} catch (error) {
+		req.flash('error_message', 'update fail');
+		res.redirect("/private/wallet/accountList");
+	}
+});
+
+router.post("/private/wallet/faucet/:accountID", isLoggedIn, async (req, res) => {
+	
+	let to_account_address = req.body.to_account_address;
+	let amount = req.body.amount;		
+	let type=req.body.type;
+
+	let db_faucetAccount = await walletService.getByID(req.params.accountID);
+	let ether_account=await tokenService.getBalance(db_faucetAccount[0].account_address);
+	
+	try {
+		if(type=='eth' && Number(amount)<Number(ether_account.ethBalance)){
+			let result=await etherService.transferEther(db_faucetAccount[0].account_address,db_faucetAccount[0].private_key,to_account_address,amount);
+			req.flash('success_message', JSON.stringify(result));
+			res.redirect("/private/wallet/accountList");
+		}else if(type=='token' && Number(amount)<Number(ether_account.tokenBalance)){
+			let result=await tokenService.transferFrom(db_faucetAccount[0].account_address,db_faucetAccount[0].private_key,to_account_address,amount);
+			req.flash('success_message', JSON.stringify(result));
+			res.redirect("/private/wallet/accountList");
+		}else{
+			req.flash('error_message', "the amount is too big!!!");
+			res.redirect("/private/wallet/accountList");
+		}	
+		
+	} catch (error) {
+		req.flash('error_message', 'You have not transfer fail');
+		res.redirect("/private/wallet/accountList");
+	}
+
+});
+
+
+
 /**passportjs Auth */
 passport.use(new LocalStrategy({
 	usernameField: "email",
