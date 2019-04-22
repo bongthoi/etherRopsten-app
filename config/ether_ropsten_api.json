@@ -1,6 +1,6 @@
 {
-    "api_ip":"http://103.77.169.244",
-    "api_port":"3200",
+    "api_ip":"http://localhost",
+    "api_port":"4000",
     "api_url":"/api/",
     "token_name":"Vinh Sang Coin",
     "symbol":"VSC"
